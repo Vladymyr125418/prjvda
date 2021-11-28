@@ -3,6 +3,8 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:testproject/provider/timer_info.dart';
 
 import 'package:testproject/widgets/math_quiz_answer_field.dart';
 import 'package:testproject/widgets/app_bar_widget.dart';
@@ -23,16 +25,17 @@ class MultiplicationQuiz extends StatefulWidget {
 var ran = Random();
 
 class _MultiplicationQuizState extends State<MultiplicationQuiz> {
-
-var q1 = List.generate(5, (_) => ran.nextInt(10));
-var q2 = List.generate(5, (_) => ran.nextInt(10));
-var scoreList = [
-  1,
-  1,
-  1,
-  1,
-  1,
-];
+  final title = 'Multiplication Quiz';
+  var timerInfo;
+  var q1 = List.generate(5, (_) => ran.nextInt(10));
+  var q2 = List.generate(5, (_) => ran.nextInt(10));
+  var scoreList = [
+    1,
+    1,
+    1,
+    1,
+    1,
+  ];
   @override
   void initState() {
     super.initState();
@@ -74,58 +77,65 @@ var scoreList = [
       _next();
     });
   }
-
+// provider timer function
   Timer? timer;
-  var timeElapsed = 0;
+  var timeElapsed;
   void startTime(){
-    timeElapsed = 80;
-    timer = Timer.periodic(Duration(seconds: 1),(_){
+    timerInfo = Provider.of<TimerInfo>(context, listen: false);
+    timerInfo.setTime(80);
+    timer = Timer.periodic(
+      Duration(seconds: 1),(_){
+        // avoid assertion failed error
         if(mounted){
-          setState(() {
-            timeElapsed--;
-            if(timeElapsed == 0){
-              timeElapsed=0;
+          timerInfo.updateTimeElapsed();
+          timeElapsed = timerInfo.getTimeElapsed();
+          // if time reached 0 send to result page
+          if(timeElapsed == 0){
+            setState(() {
               index = 5;
-            }
-          });
+            });
+          }
         }
       }
     );
   }
-
+// next level when got atleast 4 correct answers
   var level = 1;
   var totalRandom = 10;
   void _nextLevel(){
+    timerInfo = Provider.of<TimerInfo>(context,listen: false);
     setState(() {
+      //increase the range of random numbers generated 
       totalRandom+=10;
       q1 = List.generate(5, (_) => ran.nextInt(totalRandom));
       q2 = List.generate(5, (_) => ran.nextInt(totalRandom));
       scoreList = [
         1,1,1,1,1,
       ];
-      timeElapsed+=80;
+      //add time to timer
+      timerInfo.setTime(timeElapsed+=80);
       level++;
       index = 0;
       _score = 0;
     });
   }
-
+  // reset if player failed to get minimum required score to next level
   void _retry(){
+    timerInfo = Provider.of<TimerInfo>(context, listen: false);
     setState(() {
       q1 = List.generate(5, (_) => ran.nextInt(10));
       q2 = List.generate(5, (_) => ran.nextInt(10));
       scoreList = [
         1,1,1,1,1,
       ];
-      timeElapsed = 80;
+      timerInfo.setTime(80);
+      //reset variables
       totalRandom = 10;
-      level =1;
+      level = 1;
       index = 0;
       _score = 0;
     });
   }
-
-  var title = 'Multiplication Quiz';
 
   @override
   Widget build(BuildContext context) {
@@ -133,70 +143,68 @@ var scoreList = [
       resizeToAvoidBottomInset: false,
       drawer: DrawerWidget(title),
       appBar: AppBarWidget(title),
-
       backgroundColor: bgcolor,
       body: index < 5 ? Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors:[
-                      colorStyleOri1,
-                      colorStyleOri2,
-                      colorStyleOri3,
-                    ],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  )
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          child: Column(
+            children: [
+              SingleChildScrollView(
+                reverse: true,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
-                  TimerWidget(timeElapsed),
-                  Text('     ${index+1} / 5     ',style: TextStyle(color: bgcolor, fontSize: 20, fontWeight: FontWeight.bold),),
-                  Text('Level: $level  ',style: TextStyle(color: bgcolor, fontSize: 20, fontWeight: FontWeight.bold),),
+                    Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors:[
+                            colorStyleOri1,
+                            colorStyleOri2,
+                            colorStyleOri3,
+                          ],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        )
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                        Consumer<TimerInfo>(
+                          builder: (context, data, child){
+                          return TimerWidget(data.getTimeElapsed().toString());
+                          }
+                        ),
+                        Text('     ${index+1} / 5     ',style: TextStyle(color: bgcolor, fontSize: 20, fontWeight: FontWeight.bold),),
+                        Text('Level: $level  ',style: TextStyle(color: bgcolor, fontSize: 20, fontWeight: FontWeight.bold),),
+                        ],
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.all(20)),
+                    Text('Get the product of:',style: TextStyle(color: colorStyleOri1, fontSize: 20, fontWeight: FontWeight.bold),),
+                    Text('${q1[index]} x ${q2[index]}',style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
+                    Padding(padding: EdgeInsets.all(20)),
+                    AnswerField(txt),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Backbutton(_back),
+                        Nexbutton(checkAnswer, clearTextInput, txt, q1[index] * q2[index]),
+                      ],
+                    ),
+                    Padding(padding: EdgeInsets.all(50)),
+                    MainMenu(),
                   ],
                 ),
               ),
-
-            Padding(padding: EdgeInsets.all(20)),
-
-            SingleChildScrollView(
-              reverse: false,
-              child: Column(
-                children: [
-                  Text('Get the product of:',style: TextStyle(color: colorStyleOri1, fontSize: 20, fontWeight: FontWeight.bold),),
-
-                  Text('${q1[index]}  x  ${q2[index]}',style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
-                  
-                  Padding(padding: EdgeInsets.all(20)),
-
-                  AnswerField(txt),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Backbutton(_back),
-                      Nexbutton(checkAnswer, clearTextInput, txt, '${q1[index] * q2[index]}'),
-                    ],
-                  ),
-                  Padding(padding: EdgeInsets.all(50)),
-                  MainMenu(),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ) 
+            ],
+          ),
+        ) 
       : Center(
         child: SingleChildScrollView(
           child: Column(
             children:[
               ResultPage(_score, index),
-              CorrectAnswers(q1[0] * q2[0],q1[1] * q2[1],q1[2] * q2[2],q1[3] * q2[3],q1[4] * q2[4]),
+              CorrectAnswers(q1[0] * q2[0],q1[1] * q2[1],q1[2] * q2[2],q1[3] * q2[3],q1[4] * q2[4],),
               Padding(padding: EdgeInsets.all(10)),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(

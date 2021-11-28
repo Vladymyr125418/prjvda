@@ -2,16 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:testproject/provider/timer_info.dart';
 import 'package:testproject/screens/home_page.dart';
 void main() => runApp(_MyApp());
 class _MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark(),
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
+    return ChangeNotifierProvider(
+      create: (context) => TimerInfo(),
+      child: MaterialApp(
+        theme: ThemeData.dark(),
+        debugShowCheckedModeBanner: false,
+        home: HomePage(),
+      ),
     );
   }
 }

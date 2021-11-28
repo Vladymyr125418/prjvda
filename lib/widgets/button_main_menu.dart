@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:testproject/main.dart';
-import 'package:testproject/screens/mini_game.dart';
-
-import 'package:testproject/widgets/style_variables.dart';
 
 class MainMenu extends StatelessWidget {
   @override

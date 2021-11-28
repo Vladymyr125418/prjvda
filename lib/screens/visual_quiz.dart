@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:testproject/screens/settings.dart';
 import 'package:testproject/widgets/app_bar_widget.dart';
 
 import 'package:testproject/widgets/image_quiz_caption.dart';

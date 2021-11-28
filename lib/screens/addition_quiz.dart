@@ -3,6 +3,8 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:testproject/provider/timer_info.dart';
 
 import 'package:testproject/widgets/math_quiz_answer_field.dart';
 import 'package:testproject/widgets/app_bar_widget.dart';
@@ -23,16 +25,17 @@ class AdditionQuiz extends StatefulWidget {
 var ran = Random();
 
 class _AdditionQuizState extends State<AdditionQuiz> {
-
-var q1 = List.generate(5, (_) => ran.nextInt(20));
-var q2 = List.generate(5, (_) => ran.nextInt(20));
-var scoreList = [
-  1,
-  1,
-  1,
-  1,
-  1,
-];
+  final title = 'Addition Quiz';
+  var timerInfo;
+  var q1 = List.generate(5, (_) => ran.nextInt(20));
+  var q2 = List.generate(5, (_) => ran.nextInt(20));
+  var scoreList = [
+    1,
+    1,
+    1,
+    1,
+    1,
+  ];
   @override
   void initState() {
     super.initState();
@@ -74,50 +77,59 @@ var scoreList = [
       _next();
     });
   }
-
+// provider timer function
   Timer? timer;
   var timeElapsed;
-  void startTime(){
-    timeElapsed = 40;
-    timer = Timer.periodic(Duration(seconds: 1),(_){
+  void startTime(){          
+    timerInfo = Provider.of<TimerInfo>(context, listen: false);
+    timerInfo.setTime(40);
+    timer = Timer.periodic(
+      Duration(seconds: 1),(_){
+        // avoid assertion failed error
         if(mounted){
-          setState(() {
-            timeElapsed--;
-            if(timeElapsed == 0){
-              timeElapsed=0;
+          timerInfo.updateTimeElapsed();
+          timeElapsed = timerInfo.getTimeElapsed();
+          // if time reached 0 send to result page
+          if(timeElapsed == 0){
+            setState(() {
               index = 5;
-            }
-          });
+            });
+          }
         }
       }
     );
   }
-
+// next level when got atleast 4 correct answers
   var level = 1;
   var totalRandom = 20;
   void _nextLevel(){
+    timerInfo = Provider.of<TimerInfo>(context,listen: false);
     setState(() {
+      //increase the range of random numbers generated 
       totalRandom+=20;
       q1 = List.generate(5, (_) => ran.nextInt(totalRandom));
       q2 = List.generate(5, (_) => ran.nextInt(totalRandom));
       scoreList = [
         1,1,1,1,1,
       ];
-      timeElapsed +=40;
+      //add time to timer
+      timerInfo.setTime(timeElapsed+=40);
       level++;
       index = 0;
       _score = 0;
     });
   }
-
+  // reset if player failed to get minimum required score to next level
   void _retry(){
+    timerInfo = Provider.of<TimerInfo>(context, listen: false);
     setState(() {
       q1 = List.generate(5, (_) => ran.nextInt(20));
       q2 = List.generate(5, (_) => ran.nextInt(20));
       scoreList = [
         1,1,1,1,1,
       ];
-      timeElapsed = 40;
+      timerInfo.setTime(timeElapsed = 40);
+      //reset variables
       totalRandom = 20;
       level = 1;
       index = 0;
@@ -125,29 +137,22 @@ var scoreList = [
     });
   }
 
-  var title = 'Addition Quiz';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       drawer: DrawerWidget(title),
       appBar: AppBarWidget(title),
-
       backgroundColor: bgcolor,
-      
       body: index < 5 ? Center(
           child: Column(
             children: [
-
               SingleChildScrollView(
                 reverse: true,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.max,
-
                   children: [
-
                     Container(
                       height: 50,
                       decoration: BoxDecoration(
@@ -164,28 +169,26 @@ var scoreList = [
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                        TimerWidget(timeElapsed),
+                        Consumer<TimerInfo>(
+                          builder: (context, data, child){
+                          return TimerWidget(data.getTimeElapsed().toString());
+                          }
+                        ),
                         Text('     ${index+1} / 5     ',style: TextStyle(color: bgcolor, fontSize: 20, fontWeight: FontWeight.bold),),
                         Text('Level: $level  ',style: TextStyle(color: bgcolor, fontSize: 20, fontWeight: FontWeight.bold),),
                         ],
                       ),
                     ),
-
-                    
                     Padding(padding: EdgeInsets.all(20)),
                     Text('Get the sum of:',style: TextStyle(color: colorStyleOri1, fontSize: 20, fontWeight: FontWeight.bold),),
-
                     Text('${q1[index]} + ${q2[index]}',style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
-
                     Padding(padding: EdgeInsets.all(20)),
-
                     AnswerField(txt),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Backbutton(_back),
-                        Nexbutton(checkAnswer, clearTextInput, txt, '${q1[index] + q2[index]}'),
+                        Nexbutton(checkAnswer, clearTextInput, txt, q1[index] + q2[index]),
                       ],
                     ),
                     Padding(padding: EdgeInsets.all(50)),

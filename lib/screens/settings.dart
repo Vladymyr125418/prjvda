@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:testproject/main.dart';
 import 'package:testproject/widgets/style_variables.dart';
 class Settings extends StatelessWidget {
 var ori = const Color.fromRGBO(82, 242, 143, 2);
