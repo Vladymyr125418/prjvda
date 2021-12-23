@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:testproject/widgets/style_variables.dart';
 
 class TimerWidget extends StatelessWidget {
@@ -12,7 +13,7 @@ TimerWidget(this.duration);
     return Row(
       children: [
         Icon(Icons.alarm,color: bgcolor,),
-        Text(': $duration',style: TextStyle(color: bgcolor, fontSize: 20, fontWeight: FontWeight.bold),),
+        Text(': $duration',style: GoogleFonts.raleway(color: bgcolor, fontSize: 20, fontWeight: FontWeight.bold),),
       ],
     );
   }

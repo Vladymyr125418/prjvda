@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:testproject/widgets/style_variables.dart';
 
@@ -11,56 +12,56 @@ class ResultPage extends StatelessWidget {
   var star = [
     Row(
       children: [
-        Icon(Icons.star_border,color: colorStyleOri3,),
-        Icon(Icons.star_border,color: colorStyleOri3,),
-        Icon(Icons.star_border,color: colorStyleOri3,),
-        Icon(Icons.star_border,color: colorStyleOri3,),
-        Icon(Icons.star_border,color: colorStyleOri3,),
+        Icon(Icons.star_border,color: bgcolor,),
+        Icon(Icons.star_border,color: bgcolor,),
+        Icon(Icons.star_border,color: bgcolor,),
+        Icon(Icons.star_border,color: bgcolor,),
+        Icon(Icons.star_border,color: bgcolor,),
       ],
     ),
     Row(
       children: [
-        Icon(Icons.star,color: colorStyleOri3,),
-        Icon(Icons.star_border,color: colorStyleOri3,),
-        Icon(Icons.star_border,color: colorStyleOri3,),
-        Icon(Icons.star_border,color: colorStyleOri3,),
-        Icon(Icons.star_border,color: colorStyleOri3,),
+        Icon(Icons.star,color: bgcolor,),
+        Icon(Icons.star_border,color: bgcolor,),
+        Icon(Icons.star_border,color: bgcolor,),
+        Icon(Icons.star_border,color: bgcolor,),
+        Icon(Icons.star_border,color: bgcolor,),
       ],
     ),
     Row(
       children: [
-        Icon(Icons.star,color: colorStyleOri3,),
-        Icon(Icons.star,color: colorStyleOri3,),
-        Icon(Icons.star_border,color: colorStyleOri3,),
-        Icon(Icons.star_border,color: colorStyleOri3,),
-        Icon(Icons.star_border,color: colorStyleOri3,),
+        Icon(Icons.star,color: bgcolor,),
+        Icon(Icons.star,color: bgcolor,),
+        Icon(Icons.star_border,color: bgcolor,),
+        Icon(Icons.star_border,color: bgcolor,),
+        Icon(Icons.star_border,color: bgcolor,),
       ],
     ),
     Row(
       children: [
-        Icon(Icons.star,color: colorStyleOri3,),
-        Icon(Icons.star,color: colorStyleOri3,),
-        Icon(Icons.star,color: colorStyleOri3,),
-        Icon(Icons.star_border,color: colorStyleOri3,),
-        Icon(Icons.star_border,color: colorStyleOri3,),
+        Icon(Icons.star,color: bgcolor,),
+        Icon(Icons.star,color: bgcolor,),
+        Icon(Icons.star,color: bgcolor,),
+        Icon(Icons.star_border,color: bgcolor,),
+        Icon(Icons.star_border,color: bgcolor,),
       ],
     ),
     Row(
       children: [
-        Icon(Icons.star,color: colorStyleOri3,),
-        Icon(Icons.star,color: colorStyleOri3,),
-        Icon(Icons.star,color: colorStyleOri3,),
-        Icon(Icons.star,color: colorStyleOri3,),
-        Icon(Icons.star_border,color: colorStyleOri3,),
+        Icon(Icons.star,color: bgcolor,),
+        Icon(Icons.star,color: bgcolor,),
+        Icon(Icons.star,color: bgcolor,),
+        Icon(Icons.star,color: bgcolor,),
+        Icon(Icons.star_border,color: bgcolor,),
       ],
     ),
     Row(
       children: [
-        Icon(Icons.star,color: colorStyleOri3,),
-        Icon(Icons.star,color: colorStyleOri3,),
-        Icon(Icons.star,color: colorStyleOri3,),
-        Icon(Icons.star,color: colorStyleOri3,),
-        Icon(Icons.star,color: colorStyleOri3,),
+        Icon(Icons.star,color: bgcolor,),
+        Icon(Icons.star,color: bgcolor,),
+        Icon(Icons.star,color: bgcolor,),
+        Icon(Icons.star,color: bgcolor,),
+        Icon(Icons.star,color: bgcolor,),
       ],
     ),
     Row(),
@@ -87,11 +88,10 @@ class ResultPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Column(
               children: [
-                Text(score >= 4 ? 'You Did It!':'You Failed! ',style: TextStyle(color: score >= 4? colorStyleOri3 : Colors.red, fontWeight: FontWeight.bold,fontSize: 20),),
-                Text(isNotScore? playerWon? 'You Won':'You Lost':'Your Score is $score/$overall', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold), ),
+                Text(isNotScore? '' : score >= 4 ? 'Level Completed':'You Failed! ',style: GoogleFonts.raleway(color: score >= 4? bgcolor : Colors.red, fontWeight: FontWeight.bold,fontSize: 30),),
+                Text(isNotScore? playerWon? 'You Won':'You Lost':'$score/$overall', style: GoogleFonts.raleway(color: bgcolor, fontSize: 20, fontWeight: FontWeight.bold), ),
               ],
             ),
             Row(

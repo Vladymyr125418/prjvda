@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:testproject/widgets/style_variables.dart';
 
 class CorrectAnswers extends StatelessWidget {
-  int a1;
-  int a2;
-  int a3;
-  int a4;
-  int a5;
-  CorrectAnswers(this.a1,this.a2, this.a3,this.a4, this.a5);
+  var correctAnsList;
+  CorrectAnswers(this.correctAnsList);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text('Correct answers:',style: TextStyle(color: textWhite, fontWeight: FontWeight.bold),),
-        Text('1. $a1', style: TextStyle(color: textWhite),),
-        Text('2. $a2', style: TextStyle(color: textWhite),),
-        Text('3. $a3', style: TextStyle(color: textWhite),),
-        Text('4. $a4', style: TextStyle(color: textWhite),),
-        Text('5. $a5', style: TextStyle(color: textWhite),),
+        Padding(padding: EdgeInsets.all(3)),
+        Text('Correct answers:',style: GoogleFonts.raleway(color: textWhite, fontWeight: FontWeight.bold),),
+        Padding(padding: EdgeInsets.all(5)),
+        Text('1. ${correctAnsList[0]}', style: GoogleFonts.raleway(color: textWhite),),
+        Text('2. ${correctAnsList[1]}', style: GoogleFonts.raleway(color: textWhite),),
+        Text('3. ${correctAnsList[2]}', style: GoogleFonts.raleway(color: textWhite),),
+        Text('4. ${correctAnsList[3]}', style: GoogleFonts.raleway(color: textWhite),),
+        Text('5. ${correctAnsList[4]}', style: GoogleFonts.raleway(color: textWhite),),
       ],
     );
   }

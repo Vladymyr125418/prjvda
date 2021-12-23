@@ -8,12 +8,12 @@ import 'package:testproject/widgets/button_main_menu.dart';
 import 'package:testproject/widgets/result_page.dart';
 import 'package:testproject/widgets/style_variables.dart';
 
-class VisualQuiz extends StatefulWidget {
+class ImageQuiz extends StatefulWidget {
   @override
-  _VisualQuizState createState() => _VisualQuizState();
+  _ImageQuizState createState() => _ImageQuizState();
 }
 
-class _VisualQuizState extends State<VisualQuiz> {
+class _ImageQuizState extends State<ImageQuiz> {
   var _index = 0;
   var comment = '';
   var choice = '';
@@ -74,20 +74,20 @@ class _VisualQuizState extends State<VisualQuiz> {
       ),
     ];
 
-    var title = 'Images Quiz';
+    var title = 'Image Quiz';
 
     return Scaffold(
-      drawer: DrawerWidget(title),
+      bottomNavigationBar: BottomAppBar(
+        color: bgcolor,
+        child: MainMenu(),
+      ),
       appBar: AppBarWidget(title),      
       backgroundColor: bgcolor,
       body:  _index < 4 ?  Center(
         child: Column(
           children: [
-
             Caption(caption[_index]),
-
             images[_index],
-
             Column(
               children: [
                 Row(
@@ -104,7 +104,6 @@ class _VisualQuizState extends State<VisualQuiz> {
                     Choose('Bill Gets', _answer),
                   ],
                 ),
-                MainMenu(),
               ],
             ),
           ],
@@ -113,9 +112,8 @@ class _VisualQuizState extends State<VisualQuiz> {
       : Center(
           child: Column(
           children:[
+            Padding(padding: EdgeInsets.all(100)),
             ResultPage(_score, _index),
-
-            MainMenu(),
           ],  
         ),
       ),

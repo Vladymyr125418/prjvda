@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:testproject/screens/app_info.dart';
 import 'package:testproject/screens/settings.dart';
 import 'package:testproject/widgets/style_variables.dart';
@@ -31,7 +32,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget{
           )
         ),
       ),
-      title: Text('$title' ,style: TextStyle(fontSize: 25,color: bgcolor ,fontWeight: FontWeight.bold,fontStyle: FontStyle.italic,)),
+      title: Text('$title' ,style: GoogleFonts.raleway(fontSize: 20,color: bgcolor ,fontWeight: FontWeight.bold)),
       actions:[
         PopupMenuButton(
           color: bgcolor,
@@ -51,10 +52,10 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget{
           itemBuilder: (BuildContext context){
             return [
               PopupMenuItem(
-                child: Text('Settings',style: TextStyle(color: textWhite),), value: 0,
+                child: Text('Settings',style: GoogleFonts.raleway(color: textWhite),), value: 0,
               ),
               PopupMenuItem(
-                child: Text('App Info',style: TextStyle(color: textWhite),), value: 1,
+                child: Text('App Info',style: GoogleFonts.raleway(color: textWhite),), value: 1,
               ),
             ];
           }

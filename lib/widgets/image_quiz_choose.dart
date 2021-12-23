@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:testproject/widgets/style_variables.dart';
 
 
@@ -19,7 +20,7 @@ Choose(this.choice, this.answer);
           fixedSize: Size(145, 30),
           primary: colorStyleOri1,
         ),
-        child: Text(choice, style: TextStyle(color: bgcolor),),
+        child: Text(choice, style: GoogleFonts.raleway(color: bgcolor),),
         onPressed: () {
           answer(choice);
         }

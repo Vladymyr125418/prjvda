@@ -30,6 +30,10 @@ dependencies:
   provider: any
   flutter:
     sdk: flutter
+  google_fonts: ^2.1.0
+
+  # store & load data
+  shared_preferences: ^2.0.9
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -40,7 +44,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_native_splash: ^0.2.8
+  flutter_native_splash: ^1.3.2
   flutter_lints: ^1.0.4
 
 flutter_native_splash:
@@ -67,7 +71,31 @@ flutter:
     - assets/car.jpg
     - assets/bird.jpg
     - assets/bill-gates.jpg
-    - assets/monster.png
+    - assets/b1.jpg
+    - assets/b2.png
+    - assets/b3.png
+    - assets/b4.jpg
+    - assets/shopbanner.jpg
+    - assets/mob0.png
+    - assets/mob1.png
+    - assets/mob2.png
+    - assets/mob3.png
+    - assets/mob4.png
+    - assets/mob5.png
+    - assets/mob6.png
+    - assets/mob7.png
+    - assets/mob8.png
+    - assets/emob0.png
+    - assets/emob1.png
+    - assets/emob2.png
+    - assets/emob3.png
+    - assets/emob4.png
+    - assets/emob5.png
+    - assets/emob6.png
+    - assets/emob7.png
+    - assets/emob8.png
+
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

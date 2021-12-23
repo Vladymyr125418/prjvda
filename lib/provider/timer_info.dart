@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
-
-class TimerInfo extends ChangeNotifier{
+import 'package:flutter/material.dart';
+class TimerInfo with ChangeNotifier{
   int timeElapsed = 40;
 
   int getTimeElapsed() => timeElapsed;

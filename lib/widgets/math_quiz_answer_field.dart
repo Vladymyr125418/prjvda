@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:testproject/widgets/style_variables.dart';
 
 class AnswerField extends StatelessWidget {
@@ -14,7 +15,7 @@ class AnswerField extends StatelessWidget {
       child: TextField(
         autofocus: true,
         controller: txt,
-        style:  TextStyle(color: bgcolor),
+        style:  GoogleFonts.raleway(color: bgcolor),
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.transparent),
@@ -25,7 +26,7 @@ class AnswerField extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(20))
           ),
           hintText: "Enter your answer",
-          hintStyle: TextStyle(color: bgcolor),
+          hintStyle: GoogleFonts.raleway(color: bgcolor),
           filled: true,
           fillColor: colorStyleOri1,
         ),

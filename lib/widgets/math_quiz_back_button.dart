@@ -1,23 +1,57 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:testproject/widgets/style_variables.dart';
 
-class Backbutton extends StatelessWidget {
+class Backbutton extends StatefulWidget {
 final back;
 
 Backbutton(this.back);
+
+  @override
+  State<Backbutton> createState() => _BackbuttonState();
+}
+
+class _BackbuttonState extends State<Backbutton> {
+  double _height = 30;
+  double _width = 60;
+
+  void increaseSize(){
+    setState(() {
+      _height = 35;
+      _width = 65;
+    });
+  }
+  void decreaseSize(){
+    setState(() {
+      _height = 30;
+      _width = 60;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(right: 30,top: 30),
-      child: ElevatedButton(
-        child: Icon(Icons.arrow_back_ios_new_sharp,color: bgcolor,),
-        style: ElevatedButton.styleFrom(
-          primary: colorStyleOri1,
-          fixedSize: Size(40, 30)
-        ),      onPressed: back,
+    return GestureDetector(
+      child: AnimatedContainer(
+        height: _height,
+        width: _width,
+        duration: Duration(milliseconds: 100),
+        decoration: BoxDecoration(
+          color: colorStyleOri1,
+          borderRadius: BorderRadius.all(Radius.circular(20),
+          ),
+        ),
+        child: Icon(Icons.navigate_before,color: bgcolor,),
       ),
+      onTap:(){
+        increaseSize();
+        widget.back();
+        Timer(Duration(milliseconds: 100),(){
+          decreaseSize();
+        });
+      },
     );
   }
 }
